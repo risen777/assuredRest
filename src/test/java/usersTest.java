@@ -34,6 +34,7 @@ public class usersTest {
     @DisplayName("Первый тест")
     @Description("Опять тест")
     @Test
+    
  //   @Step("Запуск теста")
    // @Attachment
     public void submitForm() {
@@ -63,7 +64,7 @@ public class usersTest {
     @Description("Опять тест")
     @Test
     @Step("Запуск теста")
-    public void submitForm4() throws IOException {
+    public void submitForm4(){
         //дано
         //    JSONObject jsonAsMap = new JSONObject();
         HashMap<String, Object> jsonAsMap = new HashMap<String, Object>();
@@ -88,10 +89,11 @@ public class usersTest {
                 .body("{\n" +
                         "    \"email\": \"eve.holt@reqres.in\",\n" +
                         "    \"password\": \"cityslicka\"\n" +
-                        "}")
+                        "}").log().all()
                 //заголовок
-                .header("Content-Type", "application/json")             //отправь сюда запрос
-                .post("https://reqres.in/api/login")
+                .header("Content-Type", "application/json")
+                //отправь сюда запрос
+                .get("https://reqres.in/api/login")
                 //тогда статус 200 и залогируй
                 .then().statusCode(200).log().all();
 
@@ -101,21 +103,21 @@ public class usersTest {
     @Test
     public void submitForm2() {
         //дано
-        given()
-                //тело
-                .header("Content-Type", "application/json")             //отправь сюда запрос
-                .get("https://reqres.in/api/users?page=2")
-                //тогда статус 200 и залогируй
-                .then().statusCode(200).log().all().toString();
+//        given()
+//                //тело
+//                .header("Content-Type", "application/json")             //отправь сюда запрос
+//                .post("https://reqres.in/api/users?page=2")
+//                //тогда статус 200 и залогируй
+//                .then().statusCode(201).log().all();
 
-        Response r =
+        Response response =
                 given()
                         .log().all()
                         .header("Content-Type", "application/json")             //отправь сюда запрос
                         .when().get("https://reqres.in/api/users?page=2");
 
 
-        String xmlResponse = r.getBody().asString();
+        String xmlResponse = response.getBody().asString();
         System.out.println(xmlResponse);
         //  List<String> bookTitles = from(xmlResponse).getList("data.findAll { it.id == 4 }.first_name");
         //   System.out.println(bookTitles);
